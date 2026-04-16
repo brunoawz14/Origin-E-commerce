@@ -2,7 +2,10 @@ package OriginStore.API.OriginE_commerce.Service;
 
 import OriginStore.API.OriginE_commerce.Entity.Produto;
 import OriginStore.API.OriginE_commerce.Repository.ProdutoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -12,6 +15,13 @@ public class ProdutoService {
     @Autowired // 👈 O Spring injeta o Repository aqui sozinho, você não precisa dar "new ProdutoRepository()"
     private ProdutoRepository produtoRepository;
 
+    public Page<Produto> findAll(String categoria, Pageable pageable) {
+        if (categoria != null) {
+            return produtoRepository.findByCategoria(categoria, pageable);
+        }
+        return produtoRepository.findAll(pageable);
+    }
+
     // 👇 Salva um produto novo no banco
     public Produto save(Produto produto) {
         return produtoRepository.save(produto); // o .save() do JPA já faz o INSERT no banco
@@ -20,7 +30,7 @@ public class ProdutoService {
     // 👇 Busca um produto pelo ID — se não achar, lança um erro automaticamente
     public Produto findById(Long id) {
         return produtoRepository.findById(id) // retorna um Optional<Produto> (pode ter ou não ter)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado")); // se não achar, lança exceção
+                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado")); // se não achar, lança exceção
     }
 
     // 👇 Busca um produto existente, atualiza os campos e salva novamente
@@ -34,9 +44,7 @@ public class ProdutoService {
     }
 
     // 👇 Retorna uma lista com todos os produtos do banco
-    public List<Produto> listarTodos() {
-        return produtoRepository.findAll(); // o .findAll() faz um SELECT * no banco
-    }
+
 
     // 👇 Deleta um produto pelo ID
     public void deletar(Long id) {

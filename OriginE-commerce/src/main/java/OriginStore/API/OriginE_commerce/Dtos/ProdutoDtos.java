@@ -7,5 +7,6 @@ public record ProdutoDtos(
         String descricao,
         BigDecimal preco,
         Integer categoria
-) {
+){
+
 }
