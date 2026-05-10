@@ -33,12 +33,12 @@ public class User implements UserDetails {
 
     @Override
     public @Nullable String getPassword() {
-        return "senha";
+        return senha;
     }
 
     @Override
     public String getUsername() {
-        return "nome";
+        return nome;
     }
 
     @Override
