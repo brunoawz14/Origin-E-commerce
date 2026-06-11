@@ -10,6 +10,7 @@ Sistema de e-commerce desenvolvido utilizando Java e Spring Boot para estudos de
 - Spring Boot
 - Jpa Data
 - JWT Auth0
+- SpringDoc
 - MySQL
 - Maven
 
